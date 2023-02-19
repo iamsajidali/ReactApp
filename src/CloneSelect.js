@@ -4,17 +4,13 @@ import React from 'react';
 
 class CloneSelect extends React.Component {
   state = {
-    clonedElements: []
+    rows: 0
   };
-  handleCloneElement = () => {
-    const elements = document.querySelectorAll('.logo');
-    const element = elements[elements.length - 1];
-    const clonedElement = element.cloneNode(true);
-    this.setState(prevState => ({ clonedElements: [...prevState.clonedElements, clonedElement] }));
+  addRow = () => {
+    this.setState(({ rows }) => ({ rows: rows + 1 }));
   };
-
-  handleRemoveElement = index => {
-    this.setState(prevState => ({ clonedElements: prevState.clonedElements.filter((_, i) => i !== index) }));
+  removeRow = () => {
+    this.setState(({ rows }) => ({ rows: rows - 1 }));
   };
 
   render() {
@@ -24,12 +20,11 @@ class CloneSelect extends React.Component {
           <div className='logo'>
             <img src={logo} className="App-logo" alt="logo" />
           </div>
-          <div className="element-to-clone">Element to Clone</div>
-          <button onClick={this.handleCloneElement}>Clone Element</button>
-          {this.state.clonedElements.map((element, index) => (
-            <div key={index} className="cloned-element">
-              {element}
-              <button onClick={() => this.handleRemoveElement(index)}>Remove Element</button>
+            <button onClick={this.addRow}>+</button>
+            {Array.from({ length: this.state.rows }, (_, index) => (
+            <div key={index}>
+              <input />
+              <button onClick={this.removeRow}>-</button>
             </div>
           ))}
         </div>
